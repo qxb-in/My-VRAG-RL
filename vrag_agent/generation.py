@@ -144,7 +144,7 @@ class LLMGenerationManager:
                     image_grid_thw = image_inputs['image_grid_thw']
                     obs_str = ''.join([f"<|vision_start|>{self.processor.image_token * (image_grid_thw_item.prod() // merge_length)}<|vision_end|>" for image_grid_thw_item in image_grid_thw])
                     raw_obs_str = f"<|vision_start|>{self.processor.image_token}<|vision_end|>" * len(image_grid_thw) 
-                    obs_str = '<|im_end|>\n<|im_start|>user\n' + obs_str + '<|im_end|>\n<|im_start|>assistant\n'
+                    obs_str = '\n<|im_start|>user\n' + obs_str + '<|im_end|>\n<|im_start|>assistant\n'
                     next_obs_str.append(obs_str)   
                 except Exception as e:
                     next_obs_str.append('\n<|im_start|>user\nYour previous action is invalid. You must conduct reasoning inside <think> and </think> first every time you get new information. After reasoning, if you find you lack some knowledge, you can call a search engine by <search> query </search> and user will return the searched results. Every time you retrieve an image, you have the option to crop it to obtain a clearer view, the format for coordinates is <bbox>[x1, y1, x2, y2]</bbox>. You can search as many times as your want. If you find no further external knowledge needed, you can directly provide the answer inside <answer> and </answer>, without detailed illustrations. For example, <answer> Beijing </answer>. Please try again.\n<|im_end|>\n<|im_start|>assistant\n')
@@ -170,7 +170,7 @@ class LLMGenerationManager:
 
                 obs_str = ''.join([f"<|vision_start|>{self.processor.image_token * (image_grid_thw_item.prod() // merge_length)}<|vision_end|>" for image_grid_thw_item in image_grid_thw])
                 raw_obs_str = f"<|vision_start|>{self.processor.image_token}<|vision_end|>" * len(image_grid_thw) 
-                obs_str = '<|im_end|>\n<|im_start|>user\n' + obs_str + '<|im_end|>\n<|im_start|>assistant\n'
+                obs_str = '\n<|im_start|>user\n' + obs_str + '<|im_end|>\n<|im_start|>assistant\n'
                 next_obs_str.append(obs_str)
             else:
                 raise ValueError('invalid observation')
