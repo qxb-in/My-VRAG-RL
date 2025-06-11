@@ -785,7 +785,7 @@ class RayPPOTrainer(object):
                 timing_raw = {}
 
                 batch: DataProto = DataProto.from_single_dict(batch_dict)
-                gen_batch = batch.repeat(repeat_times=self.config.actor_rollout_ref.rollout.n_agent, interleave=True)
+                gen_batch = batch.repeat_deepcopy(repeat_times=self.config.actor_rollout_ref.rollout.n_agent, interleave=True)
 
                 # pop those keys for generation
                 if 'multi_modal_inputs' in gen_batch.non_tensor_batch.keys():
@@ -1054,7 +1054,7 @@ class RayPPOTrainer(object):
             test_batch = DataProto.from_single_dict(test_data)
 
             # repeat test batch
-            test_batch = test_batch.repeat(repeat_times=self.config.actor_rollout_ref.rollout.val_kwargs.n,
+            test_batch = test_batch.repeat_deepcopy(repeat_times=self.config.actor_rollout_ref.rollout.val_kwargs.n,
                                            interleave=True)
 
             # we only do validation on rule-based rm

@@ -706,6 +706,54 @@ class DataProto:
             meta_info=self.meta_info,
         )
 
+    def repeat_deepcopy(self, repeat_times=2, interleave=True):
+        """
+        Repeat the batch data a specified number of times.
+
+        Args:
+            repeat_times (int): Number of times to repeat the data.
+            interleave (bool): Whether to interleave the repeated data.
+
+        Returns:
+            DataProto: A new DataProto with repeated data.
+        """
+        if self.batch is not None:
+            if interleave:
+                # Interleave the data
+                repeated_tensors = {
+                    key: tensor.repeat_interleave(repeat_times, dim=0) for key, tensor in self.batch.items()
+                }
+            else:
+                # Stack the data
+                repeated_tensors = {
+                    key: tensor.unsqueeze(0).expand(repeat_times, *tensor.shape).reshape(-1, *tensor.shape[1:])
+                    for key, tensor in self.batch.items()
+                }
+
+            repeated_batch = TensorDict(
+                source=repeated_tensors,
+                batch_size=(self.batch.batch_size[0] * repeat_times,),
+            )
+        else:
+            repeated_batch = None
+
+        repeated_non_tensor_batch = {}
+        for key, val in self.non_tensor_batch.items():
+            if interleave:
+                if isinstance(val[0], dict):
+                    repeated_val = np.repeat(val, repeat_times, axis=0)
+                    repeated_non_tensor_batch[key] = np.array([copy.deepcopy(row) for row in repeated_val])
+                else:
+                    repeated_non_tensor_batch[key] = np.repeat(val, repeat_times, axis=0)
+                
+            else:
+                repeated_non_tensor_batch[key] = np.tile(val, (repeat_times,) + (1,) * (val.ndim - 1))
+
+        return DataProto(
+            batch=repeated_batch,
+            non_tensor_batch=repeated_non_tensor_batch,
+            meta_info=self.meta_info,
+        )
 
 import ray
 
