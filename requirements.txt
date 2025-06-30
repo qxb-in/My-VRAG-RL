@@ -22,7 +22,7 @@ wandb
 openai
 streamlit
 git+https://github.com/illuin-tech/colpali
-transformers==4.50.3
+transformers>=4.50.3
 llama-cloud==0.1.5
 llama-index==0.12.0
 llama-index-agent-openai==0.4.0
