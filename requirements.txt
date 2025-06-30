@@ -21,7 +21,7 @@ vllm==0.8.2
 wandb
 openai
 streamlit
-git+https://github.com/illuin-tech/colpali
+git+https://github.com/illuin-tech/colpali@481eb200834f32b87f66dec34c0deb7cd4434146
 transformers>=4.50.3
 llama-cloud==0.1.5
 llama-index==0.12.0
