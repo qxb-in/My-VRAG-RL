@@ -1,7 +1,6 @@
+## Build Own VRAG
 
-<https://github.com/user-attachments/assets/6d9bd7af-4ad9-4804-910b-2b2c5b2e0c35>
-
-<https://github.com/user-attachments/assets/22c90e3e-ec04-4967-9bb9-52d8c1ebd410>
+在制造业专属语料中，做了向量化与结点的构建，同时做了一个web端数据标注系统，对比真实值与VRAG预测结果，方便人工筛选高质量数据。
 
 <div align="center">
 <p align="center">
@@ -9,4 +8,5 @@
 </p>
 </div>
 
+# Cite
 Forked Alibaba-nlp 的工作：https://github.com/Alibaba-NLP/VRAG
